@@ -6,6 +6,11 @@ with open('config.yaml') as f:
     data = yaml.load(f, Loader=yaml.FullLoader)
 
 auth_key = data['auth_key']
+destination_path = data['destination_path']
+path = data['path']
+file = data['file']
+language_code = data['language_code']
+
 
 def translate_html_text_content(html_string, language_code):
     # Use a regular expression to extract the text content from the HTML string
@@ -28,8 +33,7 @@ def translate_text(text, language_code):
 
 
 def translate_html_file(path, article, language_code):
-    new_path = '/Users/javier/IdeaProjects/vonfreiren.github.io/_spanish/'
-    new_file= new_path+article
+    new_file= destination_path+article
 
     filename = path+article
     with open(filename, 'r') as file:
@@ -47,8 +51,5 @@ def translate_html_file(path, article, language_code):
     with open(new_file, 'w') as file:
         file.write(translated_html)
 
-language_code = "ES"
-path = '/Users/javier/IdeaProjects/vonfreiren.github.io/_posts/'
-file = '2023-02-14-top-blockchain-courses.md'
 
 translate_html_file(path, file, language_code)
