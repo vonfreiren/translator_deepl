@@ -34,8 +34,8 @@ def translate_html_text_content(html_string, language_code):
     # Replace the text content in the HTML string with the translated text content
     translated_html = re.sub(r'([^<]+)?', translated_text_content, "")
 
-    translated_html.translated_html.replace('<p>', "")
-    translated_html.translated_html.replace('</p>', "")
+    translated_html = translated_html.replace('<p>', "")
+    translated_html = translated_html.replace('</p>', "")
 
     return translated_html
 
