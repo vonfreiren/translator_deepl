@@ -68,6 +68,16 @@ def translate_metadata(metadata, language_code):
 
     return translated_metadata
 
+"""
+Initializes a DeepL translator with the provided authentication key.
+
+Args:
+    article (dict): The article to be translated.
+    language_code (str): The target language code for the translation.
+
+Returns:
+    None
+"""
 def translate_article(article, language_code):
     translator = deepl.Translator(auth_key)
     pattern = r"(\d{4}-\d{2}-\d{2})"
@@ -75,12 +85,14 @@ def translate_article(article, language_code):
     if match:
         date_value = match.group(1)
         title = article.split(date_value, 1)[1]
-        translated_title = translator.translate_text(text=title.split('.')[0].replace('-', ' '), target_lang=language_code)
-        translated_title = translated_title.text.replace(' ', '-')
+        title_parts = title.split('.')
+        original_title = title_parts[0].replace('-', ' ')
+        translated_title = translator.translate_text(text=original_title, target_lang=language_code).text
+        translated_title = translated_title.replace(' ', '-')
         translated_title = unidecode(translated_title, 'utf-8')
-        translated_title = translated_title.replace("'",'-')
+        translated_title = translated_title.replace("'", '-')
         translated_title = translated_title.lower()
-    new_article = date_value + translated_title + '.md'
+        new_article = f"{date_value}{translated_title}.{'.'.join(title_parts[1:])}"
     return new_article
 
 def translate_html_file(path, article, language_code):
